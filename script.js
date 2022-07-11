@@ -1,18 +1,11 @@
 // Window load event:
 
-window.addEventListener("load", function() {
-
-    let pickedPlanet;
+window.addEventListener("load", async function() {
 
     // calling myFetch function from scripthelper.js:   
-    let listedPlanetsResponse = myFetch();
-    listedPlanetsResponse.then(function (result) {
-        result.json().then(function(response){
-        // calling helper functions to pick a planet from the list of planets and adding information to the destination:
-        pickedPlanet = pickPlanet(response);
-        addDestinationInfo(document,pickedPlanet.name, pickedPlanet.diameter, pickedPlanet.star, pickedPlanet.distance, pickedPlanet.moons, pickedPlanet.image)
-        })
-    })
+    let listedPlanetsResponse = await myFetch();    
+    let pickedPlanet = pickPlanet(listedPlanetsResponse);
+    addDestinationInfo(document,pickedPlanet.name, pickedPlanet.diameter, pickedPlanet.star, pickedPlanet.distance, pickedPlanet.moons, pickedPlanet.image)
 
    //Calling form submission function from scripthelper.js:
    let form = document.querySelector("form");   

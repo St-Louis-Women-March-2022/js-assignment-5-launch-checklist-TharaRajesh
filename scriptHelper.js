@@ -78,10 +78,10 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
     }
     list.innerHTML = `        
         <ol>
-            <li id="pilotStatus" data-testid="pilotStatus">Pilot <b>${pilot} </b> Ready </li>
-            <li id="copilotStatus" data-testid="copilotStatus">Co-Pilot  ${copilot} Ready</li>
-            <li id="fuelStatus" data-testid="fuelStatus"> Fuel Status: ${fuelStatus}</li>
-            <li id="cargoStatus" data-testid="cargoStatus"> Cargo Status: ${cargoStatus}</li>
+            <li id="pilotStatus" data-testid="pilotStatus">Pilot <b>${pilot} is ready for launch</li>
+            <li id="copilotStatus" data-testid="copilotStatus">Co-Pilot ${copilot} is ready for launch</li>
+            <li id="fuelStatus" data-testid="fuelStatus">${fuelStatus}</li>
+            <li id="cargoStatus" data-testid="cargoStatus">${cargoStatus}</li>
         </ol>
     `;
     
@@ -99,8 +99,10 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
   
 
 //myFetch function fetches the some planetary data from URL
-async function myFetch() {
-    return await fetch("https://handlers.education.launchcode.org/static/planets.json");
+async function myFetch() {   
+    const response = await fetch("https://handlers.education.launchcode.org/static/planets.json");
+    const result = await response.json();
+    return result;
 }
 
 // pickPlanet Functions Using Math.random(), pick the one planet from the list randomly.
