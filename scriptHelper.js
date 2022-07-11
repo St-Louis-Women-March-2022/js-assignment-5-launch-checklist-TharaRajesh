@@ -18,27 +18,20 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
                      <img src=${imageUrl}>
                 `;
       };
-
-
-// validateInput Function checks each input values entered by user and alert the users to correct it.
-function validateInput(inputValues) {
-    let pilotName  = inputValues.pilot;
-    let copilotName = inputValues.copilot;
-    let fuelLevel = inputValues.fuelLevel;
-    let cargoMass = inputValues.cargoMass;
-
-    if(!isNaN(pilotName) ||!isNaN(copilotName) || isNaN(fuelLevel) || isNaN(cargoMass)){
-       alert("Make sure to enter valid information for each field!");
-       return false;
+      
+// validateInput Function check input values entered by the user:
+function validateInput(testinput){
+    if(testinput === ""){
+        return "Empty"
     }
-    if(pilotName === "" || copilotName === "" ||  fuelLevel === "" || cargoMass === ""  ){
-       alert("All Fields are required");
-       return false;
+    else if(isNaN(testinput)){
+        return "Not a Number"
     }
-    
-    return true;  
-   
+    else{
+        return "Is a Number"
+    }
 }
+
 
 // formSubmission function validate the Input data by calling validateInput function
 // and display the Shuttle status.
@@ -50,45 +43,60 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoMass) {
        "fuelLevel": fuelLevel,
        "cargoMass": cargoMass
     }
- 
-    if(validateInput(inputValues)){
-        
-        // hidden faultyItems changed to visible 
-        list.style.visibility = 'visible';
-        let overallStatus = true;
-        let fuelStatus = "Fuel level high enough for launch";
-        let cargoStatus = "Cargo mass low enough for launch";
-        
-
-        if(fuelLevel < 10000){
-            fuelStatus = "There is not enough fuel for the journey";
-            overallStatus = false;
-        }
-        
-        if(cargoMass > 10000){
-            cargoStatus = "There is too much mass for the shuttle to take off";
-            overallStatus = false;
-        }
-        list.innerHTML = `        
-            <ol>
-                <li id="pilotStatus" data-testid="pilotStatus">Pilot <b>${pilot} </b> Ready </li>
-                <li id="copilotStatus" data-testid="copilotStatus">Co-Pilot  ${copilot} Ready</li>
-                <li id="fuelStatus" data-testid="fuelStatus"> Fuel Status: ${fuelStatus}</li>
-                <li id="cargoStatus" data-testid="cargoStatus"> Cargo Status: ${cargoStatus}</li>
-            </ol>
-        `;
-        
-        if(overallStatus){
-            document.getElementById("launchStatus").style.color="Green";
-            document.getElementById("launchStatus").innerHTML = "Shuttle is ready for launch";
-        }else{
-            document.getElementById("launchStatus").style.color="red";
-            document.getElementById("launchStatus").innerHTML = "Shuttle not ready for launch";
-        }
-
+    if(validateInput(inputValues.pilot)=== "Is a Number" || validateInput(inputValues.pilot)=== "Empty"){
+        alert("Pliot Name cannot be empty or number");
+        return;
     }
+    if(validateInput(inputValues.copilot)=== "Is a Number" || validateInput(inputValues.copilot)=== "Empty"){
+        alert("Copilot Name cannot be empty or number");
+        return;
+    }
+    if(validateInput(inputValues.fuelLevel)=== "Not a Number" || validateInput(inputValues.fuelLevel)=== "Empty"){
+        alert("Fuel Level cannot be empty or string");
+        return;
+    }
+    if(validateInput(inputValues.cargoMass)=== "Not a Number" || validateInput(inputValues.cargoMass)=== "Empty"){
+        alert("Cargo Mass cannot be empty or string");
+        return;
+    }
+    
+    // hidden faultyItems changed to visible 
+    list.style.visibility = 'visible';
+    let overallStatus = true;
+    let fuelStatus = "Fuel level high enough for launch";
+    let cargoStatus = "Cargo mass low enough for launch";
+    
+
+    if(fuelLevel < 10000){
+        fuelStatus = "There is not enough fuel for the journey";
+        overallStatus = false;
+    }
+    
+    if(cargoMass > 10000){
+        cargoStatus = "There is too much mass for the shuttle to take off";
+        overallStatus = false;
+    }
+    list.innerHTML = `        
+        <ol>
+            <li id="pilotStatus" data-testid="pilotStatus">Pilot <b>${pilot} </b> Ready </li>
+            <li id="copilotStatus" data-testid="copilotStatus">Co-Pilot  ${copilot} Ready</li>
+            <li id="fuelStatus" data-testid="fuelStatus"> Fuel Status: ${fuelStatus}</li>
+            <li id="cargoStatus" data-testid="cargoStatus"> Cargo Status: ${cargoStatus}</li>
+        </ol>
+    `;
+    
+    if(overallStatus){
+        document.getElementById("launchStatus").style.color="Green";
+        document.getElementById("launchStatus").innerHTML = "Shuttle is ready for launch";
+    }else{
+        document.getElementById("launchStatus").style.color="red";
+        document.getElementById("launchStatus").innerHTML = "Shuttle not ready for launch";
+    }
+
+    
+}
         
-  }
+  
 
 //myFetch function fetches the some planetary data from URL
 async function myFetch() {
